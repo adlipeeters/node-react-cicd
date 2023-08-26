@@ -15,17 +15,29 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2 # Use the latest version of setup-node
         with:
           node-version: ${{ matrix.node-version }}
-      - run:
-        working-directory: ./
-      - run: npm install
-      - run: npm install express
-      - run: cd frontend && npm install
-      - run: cd frontend && npm run build
-      - run: pm2 stop 0
-      - run: pm2 start 0
-      - run: pm2 save
-      - run: sudo service nginx restart
+          
+      # Backend dependencies installation
+      - name: Install Backend Dependencies
+        run: |
+          npm ci # Use npm ci for a more consistent and faster installation when using a package-lock.json
+          npm install express
+      
+      # Frontend dependencies installation and build
+      - name: Install Frontend Dependencies and Build
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm run build
+          
+      # PM2 and Nginx operations
+      - name: Manage PM2 and Nginx
+        run: |
+          pm2 stop 0
+          pm2 start 0
+          pm2 save
+          sudo service nginx restart
