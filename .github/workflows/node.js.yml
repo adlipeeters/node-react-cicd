@@ -31,7 +31,7 @@ jobs:
       - name: Install Frontend Dependencies and Build
         working-directory: ./frontend
         run: |
-          npm ci
+          npm install
           npm run build
         env:
           CI: false
