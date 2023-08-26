@@ -3,7 +3,7 @@ const path = require('path')
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, '/frontend/build/index.html')));
+app.use(express.static(path.join(__dirname, '/frontend/build')));
 
 
 app.get('/names', (req, res) => {
