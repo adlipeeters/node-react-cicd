@@ -20,7 +20,7 @@ jobs:
           npm install
           npm install express
           cd frontend
-          npm i
+          npm install
           npm run build
           cd ..
           pm2 stop 0
